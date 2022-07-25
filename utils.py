@@ -15,10 +15,10 @@ def RBF_kernel(inputs, centers, sigma):
   X_ = tf.expand_dims(inputs, axis=1)
   C_ = tf.expand_dims(centers, axis=0)
   D_ = X_ - C_
-  # return tf.exp(-tf.norm(D_, axis=2)**2) / (2 * sigma**2)
-  return tf.exp(-tf.norm(D_, axis=2)**2) / (2 * 1**2) # TODO change 
+  return tf.exp(-tf.norm(D_, axis=2)**2) / (2 * sigma**2)
 
 from sklearn.cluster import KMeans
+import math
 
 class InitCentersKMeans(tf.keras.initializers.Initializer):
 
@@ -36,3 +36,8 @@ class InitCentersKMeans(tf.keras.initializers.Initializer):
       # return tf.random.normal(
         # shape, mean=self.mean, stddev=self.stddev, dtype=dtype)
       return tf.cast(kmeans.cluster_centers_, dtype="float32")
+
+def InitSigma(centers):
+  d_max = ComputeMaxDistance(centers, centers)
+  sigma = d_max / (math.sqrt(2 * centers.shape[0]))
+  return sigma
