@@ -14,7 +14,6 @@ x = np.random.randint(low=0, high=100, size=(num_of_samples, 2))
 hidden_size = 3
 
 rbf_layer_ = rbf_layer.RBF(hidden_size, utils.InitCentersKMeans(x))
-# rbf_layer_.compute_params(x)
 model = keras.Sequential()
 model.add(keras.Input(shape=(2,)))
 model.add(rbf_layer_)
@@ -54,6 +53,7 @@ else:
     print("Centers test: FAILED")
 
 y = model(x)
+# print(y)
 
 y_assert = tf.constant([[7.4903636, 6.566074 , 7.769674 ],
                         [6.7500825, 7.1973524, 7.7133765],
@@ -66,5 +66,3 @@ if (np.all(y_assert == y)):
     print("Output test: OK")
 else:
     print("Output test: FAILED")
-
-# print(y_assert, y)
