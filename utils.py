@@ -3,6 +3,7 @@ import tensorflow as tf
 from sklearn.cluster import KMeans
 import math
 import numpy as np
+from keras import backend as K
 
 def compute_max_distance(X1, X2):
   max_dist = 0
@@ -21,14 +22,14 @@ def RBF_kernel(inputs, centers, sigma):
 
 class InitCentersKMeans(tf.keras.initializers.Initializer):
 
-    def __init__(self, inputs):
-      self.inputs = inputs
+  def __init__(self, inputs):
+    self.inputs = inputs
 
-    def __call__(self, shape, dtype=None):
-      assert shape[1] == self.inputs.shape[1]
-      num_units = shape[0]
-      kmeans = KMeans(n_clusters=num_units, random_state=0, copy_x=True).fit(self.inputs)
-      return tf.cast(kmeans.cluster_centers_, dtype="float32")
+  def __call__(self, shape, dtype=None):
+    assert shape[1] == self.inputs.shape[1]
+    num_units = shape[0]
+    kmeans = KMeans(n_clusters=num_units, random_state=0, copy_x=True).fit(self.inputs)
+    return tf.cast(kmeans.cluster_centers_, dtype="float32")
 
 def init_sigma(centers):
   d_max = compute_max_distance(centers, centers)
@@ -49,3 +50,11 @@ def data_summary(arr):
   print("Variance =", variance)
   print("Standard Deviation =", sd)
   print()
+
+def root_mean_squared_error(y_true, y_pred):
+  return K.sqrt(K.mean(K.square(y_pred - y_true)))
+
+def coeff_determination(y_true, y_pred):
+    SS_res =  K.sum(K.square(y_true-y_pred))
+    SS_tot = K.sum(K.square(y_true - K.mean(y_true)))
+    return (1 - SS_res / (SS_tot + K.epsilon()))
