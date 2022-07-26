@@ -2,8 +2,9 @@ from scipy.spatial import distance
 import tensorflow as tf
 from sklearn.cluster import KMeans
 import math
+import numpy as np
 
-def ComputeMaxDistance(X1, X2):
+def compute_max_distance(X1, X2):
   max_dist = 0
   for x1 in X1:
     for x2 in X2:
@@ -29,7 +30,22 @@ class InitCentersKMeans(tf.keras.initializers.Initializer):
       kmeans = KMeans(n_clusters=num_units, random_state=0, copy_x=True).fit(self.inputs)
       return tf.cast(kmeans.cluster_centers_, dtype="float32")
 
-def InitSigma(centers):
-  d_max = ComputeMaxDistance(centers, centers)
+def init_sigma(centers):
+  d_max = compute_max_distance(centers, centers)
   sigma = d_max / (math.sqrt(2 * centers.shape[0]))
   return sigma
+
+def data_summary(arr):
+  shape = np.shape(arr)
+  min = np.amin(arr)
+  max = np.amax(arr)
+  range = np.ptp(arr)
+  variance = np.var(arr)
+  sd = np.std(arr)
+  print("Shape =", shape)
+  print("Minimum =", min)
+  print("Maximum =", max)
+  print("Range =", range)
+  print("Variance =", variance)
+  print("Standard Deviation =", sd)
+  print()
