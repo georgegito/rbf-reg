@@ -13,7 +13,7 @@ class RBF(keras.layers.Layer):
     super(RBF, self).__init__()
 
   def build(self, input_shape):
-    self.centers = self.add_weight(shape=(self.num_units, input_shape[1]), initializer=self.centers_initializer, trainable=False) # TODO use custom initializer
+    self.centers = self.add_weight(name="centers", shape=(self.num_units, input_shape[1]), initializer=self.centers_initializer, trainable=False) # TODO use custom initializer
     self.sigma = utils.init_sigma(self.centers)
     super(RBF, self).build(input_shape)
 
