@@ -3,7 +3,7 @@ from sklearn.cluster import KMeans
 import tensorflow as tf 
 from tensorflow import keras
 from scipy.spatial import distance
-import utils
+from lib import utils
 
 class RBF(keras.layers.Layer):
 

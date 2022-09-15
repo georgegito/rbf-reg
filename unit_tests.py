@@ -1,11 +1,11 @@
 import numpy as np
-import rbf_layer
+from lib import utils
+from lib import rbf_layer
 
 # ---------------------------------------------------------------------------- #
 #                           test param initialization                          #
 # ---------------------------------------------------------------------------- #
 
-import utils
 from tensorflow import keras
 
 num_of_samples = 6
