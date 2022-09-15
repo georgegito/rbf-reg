@@ -27,7 +27,7 @@ else:
 #                             test rbf layer output                            #
 # ---------------------------------------------------------------------------- #
 
-import utils
+from lib import utils
 import tensorflow as tf
 from tensorflow import keras
 from keras import layers
